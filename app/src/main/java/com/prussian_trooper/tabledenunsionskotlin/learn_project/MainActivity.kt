@@ -7,11 +7,16 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.databinding.ActivityMainBinding
+import com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs.DialogConst
+import com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs.DialogHelper
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
     private lateinit var rootElement: ActivityMainBinding
+    private val dialogHelper = DialogHelper(this)//Инициализация класса DialogHelper
+    val myAuth = FirebaseAuth.getInstance()
 
 /*lateinit - инициализация init later*/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,21 +44,27 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.id_car -> {
                 Toast.makeText(this, "Pressed id_car", Toast.LENGTH_LONG).show()
             }
+
             R.id.id_pc -> {
                 Toast.makeText(this, "Pressed id_pc", Toast.LENGTH_LONG).show()
             }
+
             R.id.id_smart -> {
                 Toast.makeText(this, "Pressed id_smart", Toast.LENGTH_LONG).show()
             }
+
             R.id.id_dm -> {
                 Toast.makeText(this, "Pressed id_dm", Toast.LENGTH_LONG).show()
             }
+            /*Вход для регистрации*/
             R.id.id_sign_up -> {
-                Toast.makeText(this, "Pressed id_sign_up", Toast.LENGTH_LONG).show()
+                dialogHelper.createSignDialog(DialogConst.SIGN_UP_STATE)
             }
+            /*Вход для входа :) */
             R.id.id_sing_in -> {
-                Toast.makeText(this, "Pressed id_sing_in", Toast.LENGTH_LONG).show()
+                dialogHelper.createSignDialog(DialogConst.SIGN_IN_STATE)
             }
+
             R.id.id_sign_out -> {
                 Toast.makeText(this, "Pressed id_sign_out", Toast.LENGTH_LONG).show()
             }
