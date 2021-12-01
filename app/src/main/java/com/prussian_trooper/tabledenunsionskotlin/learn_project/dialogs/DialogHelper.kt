@@ -14,6 +14,7 @@ class DialogHelper(act:MainActivity) {
         val builder = AlertDialog.Builder(activity)
         val rootDialogElement = SignDialogBinding.inflate(activity.layoutInflater)
         val view = rootDialogElement.root //rootDialogElement превращается во view(которая стоит после val)
+        builder.setView(view)
 
         /* Изменяем текст в sign_dialog */
         if (index == DialogConst.SIGN_UP_STATE) {
@@ -23,17 +24,21 @@ class DialogHelper(act:MainActivity) {
             rootDialogElement.tvSignTitle.text = activity.resources.getString(R.string.ac_sign_in)
             rootDialogElement.btnSignUpIn.text = activity.resources.getString(R.string.sign_in_action)
         }
+
+        val dialog = builder.create()
+
       /*прослушивание нажатия на кнопки*/  rootDialogElement.btnSignUpIn.setOnClickListener{
+            dialog.dismiss()
           if (index == DialogConst.SIGN_UP_STATE){
 
-              accHelper.signUpWithEmail(rootDialogElement.edSignEmail.text.toString(),
+              accHelper.signUpWithEmail(rootDialogElement.edSignEmail.text.toString(),//Регистрация аккаунта
                   rootDialogElement.edSignPassword.text.toString())
 
           } else {
-         //сделаю позже
+              accHelper.signInWithEmail(rootDialogElement.edSignEmail.text.toString(),//Вход по паролю
+                  rootDialogElement.edSignPassword.text.toString())
           }
         }
-        builder.setView(view)
-        builder.show()
+        dialog.show()
     }
 }

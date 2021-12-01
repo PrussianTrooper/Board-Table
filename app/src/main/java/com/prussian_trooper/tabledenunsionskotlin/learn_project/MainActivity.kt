@@ -3,17 +3,20 @@ package com.prussian_trooper.tabledenunsionskotlin.learn_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.databinding.ActivityMainBinding
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs.DialogConst
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs.DialogHelper
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var tvAccount: TextView
     private lateinit var rootElement: ActivityMainBinding
     private val dialogHelper = DialogHelper(this)//Инициализация класса DialogHelper
     val myAuth = FirebaseAuth.getInstance()
@@ -26,12 +29,20 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         setContentView(view)/*Вывод основного контейнера с инф-й на экран*/
         init()
     }
+
+    override fun onStart() {
+        super.onStart()
+        uiUpdate(myAuth.currentUser)
+    }
+
 /* убрали плагин kotlin-android-extensions*/
      private fun init(){
         val toogle = ActionBarDrawerToggle(this, rootElement.drawerLayout, rootElement.mainContent.toolbar, R.string.open, R.string.close)
         rootElement.drawerLayout.addDrawerListener(toogle)
         toogle.syncState()
         rootElement.navView.setNavigationItemSelectedListener(this)
+
+        tvAccount = rootElement.navView.getHeaderView(0).findViewById(R.id.tvAccountEmail)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -66,10 +77,18 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             }
 
             R.id.id_sign_out -> {
-                Toast.makeText(this, "Pressed id_sign_out", Toast.LENGTH_LONG).show()
+                uiUpdate(null)//Если user становится null...
+                myAuth.signOut()
             }
         }
         rootElement.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+    fun uiUpdate(user: FirebaseUser?) {//..., то запускается вот эта функция
+        tvAccount.text = if (user == null) {
+            resources.getString(R.string.not_reg)
+        } else {
+            user.email
+        }
     }
 }
