@@ -2,6 +2,7 @@ package com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs
 
 import android.app.AlertDialog
 import android.view.View
+import android.widget.Toast
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.MainActivity
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.R
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.account.AccountHelper
@@ -23,7 +24,23 @@ class DialogHelper(act:MainActivity) {
         rootDialogElement.btnSignUpIn.setOnClickListener{
           setOnClickSignUpIn(index, rootDialogElement, dialog)
         }
+        rootDialogElement.btnForgetP.setOnClickListener{
+            setOnClickResetPassword(rootDialogElement, dialog)
+        }
         dialog.show()
+    }
+    //rootDialogElement - прямой доступ к элементам в sign_dialog
+    private fun setOnClickResetPassword(rootDialogElement: SignDialogBinding, dialog: AlertDialog?) {
+        if (rootDialogElement.edSignEmail.text.isNotEmpty()) {
+            activity.myAuth.sendPasswordResetEmail(rootDialogElement.edSignEmail.text.toString()).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(activity, R.string.email_reset_password_was_send, Toast.LENGTH_LONG).show()
+                }
+            }
+            dialog?.dismiss()
+        } else {
+            rootDialogElement.tvDialogMessage.visibility = View.VISIBLE
+        }
     }
 
     private fun setOnClickSignUpIn(index: Int, rootDialogElement: SignDialogBinding, dialog: AlertDialog?) {
