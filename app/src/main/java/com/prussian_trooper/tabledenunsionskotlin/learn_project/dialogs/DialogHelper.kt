@@ -1,6 +1,7 @@
 package com.prussian_trooper.tabledenunsionskotlin.learn_project.dialogs
 
 import android.app.AlertDialog
+import android.view.View
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.MainActivity
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.R
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.account.AccountHelper
@@ -15,7 +16,30 @@ class DialogHelper(act:MainActivity) {
         val rootDialogElement = SignDialogBinding.inflate(activity.layoutInflater)
         val view = rootDialogElement.root //rootDialogElement превращается во view(которая стоит после val)
         builder.setView(view)
+        setDialogState(index,rootDialogElement)
 
+        val dialog = builder.create()
+           /*прослушивание нажатия на кнопки*/
+        rootDialogElement.btnSignUpIn.setOnClickListener{
+          setOnClickSignUpIn(index, rootDialogElement, dialog)
+        }
+        dialog.show()
+    }
+
+    private fun setOnClickSignUpIn(index: Int, rootDialogElement: SignDialogBinding, dialog: AlertDialog?) {
+        dialog?.dismiss()
+        if (index == DialogConst.SIGN_UP_STATE){
+
+            accHelper.signUpWithEmail(rootDialogElement.edSignEmail.text.toString(),//Регистрация аккаунта
+                rootDialogElement.edSignPassword.text.toString())
+
+        } else {
+            accHelper.signInWithEmail(rootDialogElement.edSignEmail.text.toString(),//Вход по паролю
+                rootDialogElement.edSignPassword.text.toString())
+        }
+    }
+
+    private fun setDialogState(index: Int, rootDialogElement: SignDialogBinding) {
         /* Изменяем текст в sign_dialog */
         if (index == DialogConst.SIGN_UP_STATE) {
             rootDialogElement.tvSignTitle.text = activity.resources.getString(R.string.ac_sign_up)
@@ -23,22 +47,7 @@ class DialogHelper(act:MainActivity) {
         } else {
             rootDialogElement.tvSignTitle.text = activity.resources.getString(R.string.ac_sign_in)
             rootDialogElement.btnSignUpIn.text = activity.resources.getString(R.string.sign_in_action)
+            rootDialogElement.btnForgetP.visibility = View.VISIBLE
         }
-
-        val dialog = builder.create()
-
-      /*прослушивание нажатия на кнопки*/  rootDialogElement.btnSignUpIn.setOnClickListener{
-            dialog.dismiss()
-          if (index == DialogConst.SIGN_UP_STATE){
-
-              accHelper.signUpWithEmail(rootDialogElement.edSignEmail.text.toString(),//Регистрация аккаунта
-                  rootDialogElement.edSignPassword.text.toString())
-
-          } else {
-              accHelper.signInWithEmail(rootDialogElement.edSignEmail.text.toString(),//Вход по паролю
-                  rootDialogElement.edSignPassword.text.toString())
-          }
-        }
-        dialog.show()
     }
 }
