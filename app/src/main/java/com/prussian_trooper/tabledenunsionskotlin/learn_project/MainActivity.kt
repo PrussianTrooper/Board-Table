@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.id_my_ads -> {
-
        /*Проверка работаспособности*/
                 Toast.makeText(this, "Pressed id_my_ads", Toast.LENGTH_LONG).show()
             }
@@ -84,6 +83,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         rootElement.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
     fun uiUpdate(user: FirebaseUser?) {//..., то запускается вот эта функция
         tvAccount.text = if (user == null) {
             resources.getString(R.string.not_reg)

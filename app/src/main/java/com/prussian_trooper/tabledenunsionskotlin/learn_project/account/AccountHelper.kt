@@ -2,7 +2,6 @@ package com.prussian_trooper.tabledenunsionskotlin.learn_project.account
 
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.MainActivity
 import com.prussian_trooper.tabledenunsionskotlin.learn_project.R
 

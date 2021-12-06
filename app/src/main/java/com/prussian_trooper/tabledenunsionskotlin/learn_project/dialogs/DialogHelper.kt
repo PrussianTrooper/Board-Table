@@ -20,7 +20,7 @@ class DialogHelper(act:MainActivity) {
         setDialogState(index,rootDialogElement)
 
         val dialog = builder.create()
-           /*прослушивание нажатия на кнопки*/
+           /**/
         rootDialogElement.btnSignUpIn.setOnClickListener{
           setOnClickSignUpIn(index, rootDialogElement, dialog)
         }
