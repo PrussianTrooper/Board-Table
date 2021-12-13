@@ -18,7 +18,7 @@ class AccountHelper(act:MainActivity) {
             }else{
                 Toast.makeText(act, act.resources.getString(R.string.sign_up_error), Toast.LENGTH_SHORT).show()
             }
-
+//проверка
         }
         /*addOnCompleteListener() - слушатель, который объявляет об успешной регистрации либо о неудачной попытке*/
     }
